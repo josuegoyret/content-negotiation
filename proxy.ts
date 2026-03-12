@@ -14,7 +14,7 @@ const AI_AGENT_PATTERNS = [
 // Search engine bots that need HTML for SEO
 const SEO_BOT_PATTERNS = [/googlebot/i, /bingbot/i, /yandexbot/i, /duckduckbot/i]
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   const userAgent = request.headers.get("user-agent") || ""
   const acceptHeader = request.headers.get("accept") || ""

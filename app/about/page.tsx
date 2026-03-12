@@ -1,10 +1,10 @@
 // Normal Next.js page - full React DX with proper rendering
-import { CONTENT } from "./content"
+import { CONTENT } from "@/lib/content";
 
 export const metadata = {
   title: CONTENT.title,
   description: CONTENT.description,
-}
+};
 
 export default function AboutPage() {
   return (
@@ -14,9 +14,7 @@ export default function AboutPage() {
           <h1 className="text-4xl font-bold tracking-tight mb-4">
             {CONTENT.title}
           </h1>
-          <p className="text-xl text-muted-foreground">
-            {CONTENT.description}
-          </p>
+          <p className="text-xl text-muted-foreground">{CONTENT.description}</p>
         </header>
 
         <section className="mb-10">
@@ -65,5 +63,5 @@ export default function AboutPage() {
         </a>
       </div>
     </main>
-  )
+  );
 }
