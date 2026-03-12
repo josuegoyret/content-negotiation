@@ -1,114 +1,465 @@
 import Link from "next/link"
+import {
+  ArrowRight,
+  Globe,
+  Bot,
+  FileText,
+  Search,
+  User,
+} from "lucide-react"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Kbd } from "@/components/ui/kbd"
+import { CopyButton } from "@/components/copy-button"
+
+function getBaseUrl() {
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`
+  }
+  return "http://localhost:3000"
+}
 
 export default function Home() {
+  const baseUrl = getBaseUrl()
+
   return (
-    <main className="min-h-screen bg-background text-foreground p-8 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Content Negotiation Demo</h1>
-
-      <div className="space-y-6">
-        <section className="p-6 border border-border rounded-lg bg-card">
-          <h2 className="text-xl font-semibold mb-4">How It Works</h2>
-          <p className="text-muted-foreground mb-4">
-            The <code className="bg-muted px-2 py-1 rounded">/about</code> route serves different content based on who&apos;s
-            requesting:
+    <main className="min-h-screen bg-background text-foreground">
+      <div className="mx-auto max-w-5xl px-6 py-16 space-y-10">
+        {/* Hero */}
+        <div className="text-center space-y-4">
+          <Badge
+            variant="secondary"
+            className="animate-in fade-in slide-in-from-bottom-2 duration-500"
+          >
+            Next.js Content Negotiation
+          </Badge>
+          <h1 className="text-4xl font-bold tracking-tight animate-in fade-in slide-in-from-bottom-3 duration-500 fill-mode-both delay-100">
+            Content Negotiation Demo
+          </h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-3 duration-500 fill-mode-both delay-200">
+            Serve different content formats from the same URL based on
+            who&apos;s requesting. AI agents get clean markdown. Browsers get
+            branded HTML.
           </p>
+        </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border">
-                  <th className="text-left py-2 pr-4">Requester</th>
-                  <th className="text-left py-2 pr-4">Gets</th>
-                  <th className="text-left py-2">Detection</th>
-                </tr>
-              </thead>
-              <tbody className="text-muted-foreground">
-                <tr className="border-b border-border/50">
-                  <td className="py-2 pr-4">AI Agents (Claude, ChatGPT)</td>
-                  <td className="py-2 pr-4">Raw Markdown</td>
-                  <td className="py-2">User-Agent match</td>
-                </tr>
-                <tr className="border-b border-border/50">
-                  <td className="py-2 pr-4">Explicit markdown request</td>
-                  <td className="py-2 pr-4">Raw Markdown</td>
-                  <td className="py-2">
-                    <code className="text-xs">Accept: text/markdown</code>
-                  </td>
-                </tr>
-                <tr className="border-b border-border/50">
-                  <td className="py-2 pr-4">Search bots (Google, Bing)</td>
-                  <td className="py-2 pr-4">Branded HTML</td>
-                  <td className="py-2">User-Agent match</td>
-                </tr>
-                <tr>
-                  <td className="py-2 pr-4">Human browsers</td>
-                  <td className="py-2 pr-4">Branded HTML</td>
-                  <td className="py-2">Default</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
+        {/* How It Works */}
+        <Card className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both delay-300">
+          <CardHeader>
+            <CardTitle className="text-xl">How It Works</CardTitle>
+            <CardDescription>
+              The{" "}
+              <code className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">
+                /about
+              </code>{" "}
+              route serves different content based on the requester
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="flex items-start gap-3 rounded-lg border p-4 transition-all duration-200 hover:bg-muted/50 hover:shadow-sm">
+                <Bot className="mt-0.5 size-5 shrink-0 text-primary" />
+                <div>
+                  <p className="text-sm font-medium">AI Agents</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Claude, ChatGPT, Perplexity
+                  </p>
+                  <Badge variant="secondary" className="mt-2 text-[10px]">
+                    Raw Markdown
+                  </Badge>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 rounded-lg border p-4 transition-all duration-200 hover:bg-muted/50 hover:shadow-sm">
+                <FileText className="mt-0.5 size-5 shrink-0 text-primary" />
+                <div>
+                  <p className="text-sm font-medium">Accept Header</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Accept: text/markdown
+                  </p>
+                  <Badge variant="secondary" className="mt-2 text-[10px]">
+                    Raw Markdown
+                  </Badge>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 rounded-lg border p-4 transition-all duration-200 hover:bg-muted/50 hover:shadow-sm">
+                <Search className="mt-0.5 size-5 shrink-0 text-primary" />
+                <div>
+                  <p className="text-sm font-medium">Search Engines</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Google, Bing, Yandex
+                  </p>
+                  <Badge className="mt-2 text-[10px]">Branded HTML</Badge>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 rounded-lg border p-4 transition-all duration-200 hover:bg-muted/50 hover:shadow-sm">
+                <User className="mt-0.5 size-5 shrink-0 text-primary" />
+                <div>
+                  <p className="text-sm font-medium">Human Browsers</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Chrome, Firefox, Safari
+                  </p>
+                  <Badge className="mt-2 text-[10px]">Branded HTML</Badge>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
-        <section className="p-6 border border-border rounded-lg bg-card">
-          <h2 className="text-xl font-semibold mb-4">Try It Out</h2>
-
-          <div className="space-y-4">
-            <div>
-              <Link
-                href="/about"
-                className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 transition-colors"
+        {/* Try It Out — Two Columns */}
+        <div className="grid gap-6 md:grid-cols-2">
+          {/* Browser Column */}
+          <Card className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both delay-[400ms]">
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <Globe className="size-5 text-primary" />
+                <CardTitle>Try with Browser</CardTitle>
+              </div>
+              <CardDescription>
+                Visit the page directly to see the styled HTML version
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-sm text-muted-foreground">
+                Click below to open{" "}
+                <code className="bg-muted px-1 py-0.5 rounded text-xs font-mono">
+                  /about
+                </code>{" "}
+                in your browser. Your browser sends a standard{" "}
+                <code className="bg-muted px-1 py-0.5 rounded text-xs font-mono">
+                  Accept: text/html
+                </code>{" "}
+                header, so the proxy serves the full React-rendered HTML page.
+              </p>
+              <Button
+                asChild
+                className="w-full transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
               >
-                Visit /about (HTML)
-              </Link>
-              <p className="text-sm text-muted-foreground mt-2">Opens in browser → serves HTML</p>
+                <Link href="/about">
+                  Visit /about
+                  <ArrowRight className="size-4" />
+                </Link>
+              </Button>
+              <div className="rounded-lg bg-muted/50 border p-4 space-y-2">
+                <p className="text-xs font-medium">What to expect:</p>
+                <ul className="text-xs text-muted-foreground space-y-1.5">
+                  <li className="flex gap-2">
+                    <span className="text-primary font-bold">&bull;</span>
+                    Full styled HTML page with company branding
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary font-bold">&bull;</span>
+                    React server-rendered content with Tailwind CSS
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary font-bold">&bull;</span>
+                    Same URL, different format than what agents see
+                  </li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Agent Simulation Column */}
+          <Card className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both delay-500">
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <Bot className="size-5 text-primary" />
+                <CardTitle>Simulate Agent Bot</CardTitle>
+              </div>
+              <CardDescription>
+                Use curl to see how AI agents receive markdown content
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Tabs defaultValue="macos">
+                <TabsList className="w-full">
+                  <TabsTrigger value="macos" className="flex-1 gap-1.5">
+                    macOS / Linux
+                  </TabsTrigger>
+                  <TabsTrigger value="windows" className="flex-1 gap-1.5">
+                    Windows
+                  </TabsTrigger>
+                </TabsList>
+
+                {/* macOS / Linux */}
+                <TabsContent value="macos" className="space-y-4 mt-3">
+                  <div className="space-y-4">
+                    <Step number={1} title="Open Terminal">
+                      Press <Kbd>&#8984;</Kbd> + <Kbd>Space</Kbd>, type
+                      &quot;Terminal&quot;, press Enter
+                    </Step>
+
+                    <Step
+                      number={2}
+                      title="Request markdown via Accept header"
+                    >
+                      <CodeSnippet
+                        code={`curl -i -H "Accept: text/markdown" \\\n  ${baseUrl}/about`}
+                        copyText={`curl -i -H "Accept: text/markdown" ${baseUrl}/about`}
+                      />
+                    </Step>
+
+                    <Step number={3} title="What to expect">
+                      You&apos;ll see raw markdown content with a{" "}
+                      <code className="bg-muted px-1 py-0.5 rounded text-[10px] font-mono">
+                        Content-Type: text/markdown
+                      </code>{" "}
+                      response header and an{" "}
+                      <code className="bg-muted px-1 py-0.5 rounded text-[10px] font-mono">
+                        X-Served-To: ai-agent
+                      </code>{" "}
+                      debug header
+                    </Step>
+                  </div>
+
+                  <Separator />
+
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Or simulate a specific AI agent:
+                    </p>
+                    <CodeSnippet
+                      code={`curl -i -H "User-Agent: ClaudeBot/1.0" \\\n  ${baseUrl}/about`}
+                      copyText={`curl -i -H "User-Agent: ClaudeBot/1.0" ${baseUrl}/about`}
+                    />
+                  </div>
+                </TabsContent>
+
+                {/* Windows */}
+                <TabsContent value="windows" className="space-y-4 mt-3">
+                  <div className="space-y-4">
+                    <Step number={1} title="Open PowerShell">
+                      Press <Kbd>Win</Kbd> + <Kbd>X</Kbd>, then select
+                      &quot;Terminal&quot; or &quot;PowerShell&quot;
+                    </Step>
+
+                    <Step
+                      number={2}
+                      title="Request markdown via Accept header"
+                    >
+                      <CodeSnippet
+                        code={`curl.exe -i -H "Accept: text/markdown" \`\n  ${baseUrl}/about`}
+                        copyText={`curl.exe -i -H "Accept: text/markdown" ${baseUrl}/about`}
+                      />
+                      <p className="text-[10px] text-muted-foreground mt-1.5">
+                        Use{" "}
+                        <code className="bg-muted px-1 rounded">curl.exe</code>{" "}
+                        in PowerShell &mdash;{" "}
+                        <code className="bg-muted px-1 rounded">curl</code> is
+                        an alias for{" "}
+                        <code className="bg-muted px-1 rounded">
+                          Invoke-WebRequest
+                        </code>
+                      </p>
+                    </Step>
+
+                    <Step number={3} title="What to expect">
+                      You&apos;ll see raw markdown content with a{" "}
+                      <code className="bg-muted px-1 py-0.5 rounded text-[10px] font-mono">
+                        Content-Type: text/markdown
+                      </code>{" "}
+                      response header and an{" "}
+                      <code className="bg-muted px-1 py-0.5 rounded text-[10px] font-mono">
+                        X-Served-To: ai-agent
+                      </code>{" "}
+                      debug header
+                    </Step>
+                  </div>
+
+                  <Separator />
+
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Or simulate a specific AI agent:
+                    </p>
+                    <CodeSnippet
+                      code={`curl.exe -i -H "User-Agent: ClaudeBot/1.0" \`\n  ${baseUrl}/about`}
+                      copyText={`curl.exe -i -H "User-Agent: ClaudeBot/1.0" ${baseUrl}/about`}
+                    />
+                  </div>
+                </TabsContent>
+              </Tabs>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Implementation Details */}
+        <Card className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both delay-[600ms]">
+          <CardHeader>
+            <CardTitle className="text-xl">
+              Key Implementation Details
+            </CardTitle>
+            <CardDescription>
+              How content negotiation works under the hood
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-5">
+              <Detail
+                number={1}
+                title="proxy.ts — Request Interception"
+                description={
+                  <>
+                    A proxy function intercepts incoming requests to matched
+                    routes (e.g.,{" "}
+                    <code className="bg-muted px-1 rounded text-xs font-mono">
+                      /about
+                    </code>
+                    ). It checks the{" "}
+                    <code className="bg-muted px-1 rounded text-xs font-mono">
+                      User-Agent
+                    </code>{" "}
+                    header against known AI agent patterns (ClaudeBot,
+                    ChatGPT-User, GPTBot, PerplexityBot, Cohere-AI) and the{" "}
+                    <code className="bg-muted px-1 rounded text-xs font-mono">
+                      Accept
+                    </code>{" "}
+                    header for explicit{" "}
+                    <code className="bg-muted px-1 rounded text-xs font-mono">
+                      text/markdown
+                    </code>{" "}
+                    requests.
+                  </>
+                }
+              />
+              <Detail
+                number={2}
+                title="NextResponse.rewrite() — Transparent URL Rewriting"
+                description={
+                  <>
+                    When an AI agent or markdown request is detected, the proxy
+                    rewrites{" "}
+                    <code className="bg-muted px-1 rounded text-xs font-mono">
+                      /about
+                    </code>{" "}
+                    to{" "}
+                    <code className="bg-muted px-1 rounded text-xs font-mono">
+                      /_markdown/about
+                    </code>{" "}
+                    internally. The client-facing URL stays the same &mdash; the
+                    rewrite is invisible.
+                  </>
+                }
+              />
+              <Detail
+                number={3}
+                title="Dual Content Paths — Single Source of Truth"
+                description={
+                  <>
+                    <code className="bg-muted px-1 rounded text-xs font-mono">
+                      app/about/page.tsx
+                    </code>{" "}
+                    serves the React-rendered HTML page.{" "}
+                    <code className="bg-muted px-1 rounded text-xs font-mono">
+                      app/_markdown/about/route.ts
+                    </code>{" "}
+                    is a route handler returning raw markdown with{" "}
+                    <code className="bg-muted px-1 rounded text-xs font-mono">
+                      Content-Type: text/markdown
+                    </code>
+                    . Both derive content from{" "}
+                    <code className="bg-muted px-1 rounded text-xs font-mono">
+                      lib/content.ts
+                    </code>
+                    .
+                  </>
+                }
+              />
+              <Detail
+                number={4}
+                title="SEO Protection & CDN Caching"
+                description={
+                  <>
+                    Search engine bots (Googlebot, Bingbot, Yandex, DuckDuckBot)
+                    are explicitly excluded from markdown rewriting to preserve
+                    SEO indexing. The markdown route sets{" "}
+                    <code className="bg-muted px-1 rounded text-xs font-mono">
+                      Vary: Accept, User-Agent
+                    </code>{" "}
+                    so CDNs correctly cache different versions for different
+                    request types.
+                  </>
+                }
+              />
             </div>
-
-            <div className="p-4 bg-muted rounded-md">
-              <p className="text-sm font-medium mb-2">Test with curl:</p>
-              <code className="text-xs block mb-2"># Get HTML (default)</code>
-              <pre className="text-xs bg-background p-2 rounded mb-3 overflow-x-auto">curl -i http://localhost:3000/about</pre>
-
-              <code className="text-xs block mb-2"># Get Markdown (explicit Accept header)</code>
-              <pre className="text-xs bg-background p-2 rounded mb-3 overflow-x-auto">
-                curl -i -H &quot;Accept: text/markdown&quot; http://localhost:3000/about
-              </pre>
-
-              <code className="text-xs block mb-2"># Simulate AI agent</code>
-              <pre className="text-xs bg-background p-2 rounded overflow-x-auto">
-                curl -i -H &quot;User-Agent: ClaudeBot/1.0&quot; http://localhost:3000/about
-              </pre>
-            </div>
-          </div>
-        </section>
-
-        <section className="p-6 border border-border rounded-lg bg-card">
-          <h2 className="text-xl font-semibold mb-4">Key Implementation Details</h2>
-          <ul className="space-y-2 text-muted-foreground">
-            <li className="flex gap-2">
-              <span className="text-foreground">1.</span>
-              <span>
-                <strong className="text-foreground">middleware.ts</strong> - Detects User-Agent and Accept headers, sets{" "}
-                <code className="text-xs bg-muted px-1 rounded">x-content-preference</code> header
-              </span>
-            </li>
-            <li className="flex gap-2">
-              <span className="text-foreground">2.</span>
-              <span>
-                <strong className="text-foreground">app/about/route.ts</strong> - Route handler reads preference and serves
-                appropriate content
-              </span>
-            </li>
-            <li className="flex gap-2">
-              <span className="text-foreground">3.</span>
-              <span>
-                <strong className="text-foreground">Vary header</strong> - Ensures CDN caches different versions for different
-                requesters
-              </span>
-            </li>
-          </ul>
-        </section>
+          </CardContent>
+        </Card>
       </div>
     </main>
+  )
+}
+
+function Step({
+  number,
+  title,
+  children,
+}: {
+  number: number
+  title: string
+  children: React.ReactNode
+}) {
+  return (
+    <div className="flex gap-3">
+      <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-medium">
+        {number}
+      </span>
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-medium">{title}</p>
+        <div className="text-xs text-muted-foreground mt-1">{children}</div>
+      </div>
+    </div>
+  )
+}
+
+function CodeSnippet({
+  code,
+  copyText,
+}: {
+  code: string
+  copyText: string
+}) {
+  return (
+    <div className="relative group mt-1.5">
+      <pre className="text-[11px] leading-relaxed bg-muted/50 border rounded-lg p-3 pr-10 overflow-x-auto font-mono whitespace-pre-wrap break-all">
+        {code}
+      </pre>
+      <CopyButton text={copyText} className="absolute top-2 right-2" />
+    </div>
+  )
+}
+
+function Detail({
+  number,
+  title,
+  description,
+}: {
+  number: number
+  title: string
+  description: React.ReactNode
+}) {
+  return (
+    <div className="flex gap-3">
+      <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-xs font-bold">
+        {number}
+      </span>
+      <div>
+        <p className="text-sm font-medium">{title}</p>
+        <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+          {description}
+        </p>
+      </div>
+    </div>
   )
 }
